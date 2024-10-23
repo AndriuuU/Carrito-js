@@ -5,6 +5,12 @@ const contenedorCarrito = document.querySelector('#lista-carrito tbody');
 const vaciarCarritoBtn = document.querySelector('#vaciar-carrito');
 let articulosCarrito = [];
 
+// Cargar los datos de LocalStorage
+document.addEventListener('DOMContentLoaded', () => {
+  articulosCarrito = JSON.parse(localStorage.getItem('carrito')) || [];
+  carritoHTML();
+});
+
 // Cargar Event Listeners
 cargarEventListeners();
 function cargarEventListeners() {
@@ -96,14 +102,20 @@ function carritoHTML() {
     `;
 
     // Agrega el HTML del carrito en el tbody
-    contenedorCarrito.appendChild(row);
+    contenedorCarrito.appendChild(row)
+    sincronizarStorage()
+    
   });
+ 
+}
+
+// Almacena los cursos en LocalStorage
+function sincronizarStorage() {
+  localStorage.setItem("carrito", JSON.stringify(articulosCarrito));
 }
 
 // Elimina los cursos del tbody
 function limpiarHTML() {
-  // Forma lenta
-  // contenedorCarrito.innerHTML = '';
 
   // Forma rápida
   while (contenedorCarrito.firstChild) {
